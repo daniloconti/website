@@ -855,6 +855,16 @@ export default function PortfolioPage() {
             </div>
           </nav>
         )}
+
+        <div className="flex justify-center border-t border-border bg-background py-2 md:hidden">
+          <button
+            onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
+            className="flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            <Languages className="h-4 w-4" />
+            {language === "pt" ? "English" : "Português"}
+          </button>
+        </div>
       </header>
 
       {/* Hero Section */}
@@ -866,7 +876,10 @@ export default function PortfolioPage() {
               <h1 className="font-display mb-4 text-5xl font-bold tracking-tight text-foreground md:text-6xl text-center md:text-left">
                 {language === "pt" ? "DANILO CONTI" : "DANILO CONTI"}
               </h1>
-              <p className="font-display mb-2 text-xl font-bold md:text-2xl text-center" style={{ color: "#38bdf8" }}>
+              <p
+                className="font-display mb-2 text-xl font-bold md:text-2xl text-center md:text-left"
+                style={{ color: "#38bdf8" }}
+              >
                 Growth & Design Lead
               </p>
               <p className="mb-8 text-lg text-muted-foreground md:text-xl text-center md:text-left">
@@ -874,6 +887,7 @@ export default function PortfolioPage() {
                   ? "Escalando Produtos e Marcas via Estratégia e UX"
                   : "Scaling Products and Brands through Strategy and UX"}
               </p>
+
               <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                 <Button size="lg" className="w-full md:w-auto gap-2 bg-[#38bdf8] hover:bg-[#38bdf8]/90" asChild>
                   <a href="mailto:danilocnt@gmail.com">
@@ -881,7 +895,6 @@ export default function PortfolioPage() {
                     danilocnt@gmail.com
                   </a>
                 </Button>
-                {/* Social buttons container - side by side on mobile, inline on desktop */}
                 <div className="flex gap-3 md:gap-4 w-full md:w-auto">
                   <Button size="lg" variant="outline" className="flex-1 md:flex-none gap-2 bg-transparent" asChild>
                     <a href="https://www.linkedin.com/in/danilocnt/" target="_blank" rel="noopener noreferrer">
@@ -921,7 +934,12 @@ export default function PortfolioPage() {
             <h2 className="font-display mb-6 text-center text-3xl font-bold text-foreground md:text-4xl">
               {trans.about.title}
             </h2>
-            <p className="mb-6 text-center text-lg text-muted-foreground">{trans.about.intro}</p>
+            <p className="mb-6 text-center text-lg text-muted-foreground">
+              <span className="font-semibold text-foreground">Growth & Design Lead</span> –{" "}
+              {language === "pt"
+                ? "Atuo na intersecção onde a promessa da marca se materializa na entrega do produto, conectando experiência a alavancas de tração."
+                : "I work at the intersection where brand promise materializes in product delivery, connecting experience to traction levers."}
+            </p>
             <div className="mb-8 flex justify-center">
               <Button variant="secondary" onClick={() => setTrajectoryModalOpen(true)}>
                 {trans.about.ctaButton}
@@ -982,9 +1000,12 @@ export default function PortfolioPage() {
                 return (
                   <Card
                     key={idx}
-                    className="cursor-pointer border-2 transition-all hover:scale-[1.02] hover:border-primary hover:shadow-lg"
+                    className="group cursor-pointer border-2 transition-all hover:scale-[1.02] hover:border-primary hover:shadow-lg relative"
                     onClick={() => setSelectedExpertise(area)}
                   >
+                    <div className="absolute right-4 top-4">
+                      <ExternalLink className="h-5 w-5 text-gray-500 transition-transform group-hover:scale-110" />
+                    </div>
                     <CardHeader className="p-6">
                       <div className="flex items-start gap-3">
                         <Icon className="h-8 w-8 flex-shrink-0 text-primary" />
@@ -1087,9 +1108,12 @@ export default function PortfolioPage() {
                 return (
                   <Card
                     key={project.id}
-                    className="group cursor-pointer border-2 transition-all hover:scale-[1.02] hover:border-primary hover:shadow-xl"
+                    className="group cursor-pointer border-2 transition-all hover:scale-[1.02] hover:border-primary hover:shadow-xl relative"
                     onClick={() => setSelectedProject(project)}
                   >
+                    <div className="absolute right-4 top-4">
+                      <ExternalLink className="h-5 w-5 text-gray-500 transition-transform group-hover:scale-110" />
+                    </div>
                     <CardHeader className="p-6">
                       <Icon className="mb-3 h-10 w-10 text-primary" />
                       <CardTitle className="font-display mb-2 text-xl text-foreground">
@@ -1151,14 +1175,14 @@ export default function PortfolioPage() {
 
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
         <DialogContent
-          className="max-h-[85vh] max-w-4xl overflow-y-auto backdrop-blur-sm"
+          className="max-h-[85vh] max-w-4xl overflow-y-auto backdrop-blur-md"
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.88)",
+            backgroundColor: "rgba(0, 0, 0, 0.90)",
           }}
         >
           {selectedProject && (
             <>
-              <DialogHeader>
+              <DialogHeader className="pt-6">
                 <DialogTitle className="font-display text-2xl text-foreground">
                   {selectedProject.title[language]}
                 </DialogTitle>
@@ -1215,14 +1239,14 @@ export default function PortfolioPage() {
 
       <Dialog open={!!selectedExpertise} onOpenChange={() => setSelectedExpertise(null)}>
         <DialogContent
-          className="max-h-[85vh] max-w-4xl overflow-y-auto backdrop-blur-sm"
+          className="max-h-[85vh] max-w-4xl overflow-y-auto backdrop-blur-md"
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.88)",
+            backgroundColor: "rgba(0, 0, 0, 0.90)",
           }}
         >
           {selectedExpertise && (
             <>
-              <DialogHeader>
+              <DialogHeader className="pt-6">
                 <DialogTitle className="font-display text-2xl text-foreground">
                   {selectedExpertise.title[language]}
                 </DialogTitle>
@@ -1251,12 +1275,12 @@ export default function PortfolioPage() {
 
       <Dialog open={trajectoryModalOpen} onOpenChange={setTrajectoryModalOpen}>
         <DialogContent
-          className="max-h-[85vh] max-w-5xl overflow-y-auto backdrop-blur-sm"
+          className="max-h-[85vh] max-w-5xl overflow-y-auto backdrop-blur-md"
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.88)",
+            backgroundColor: "rgba(0, 0, 0, 0.90)",
           }}
         >
-          <DialogHeader>
+          <DialogHeader className="pt-6">
             <DialogTitle className="font-display text-2xl text-foreground">{trans.menu.trajectory}</DialogTitle>
           </DialogHeader>
           <div className="space-y-8 py-4">
