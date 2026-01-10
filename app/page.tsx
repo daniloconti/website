@@ -856,21 +856,13 @@ export default function PortfolioPage() {
           </nav>
         )}
 
-        <div className="flex justify-center border-t border-border bg-background py-2 md:hidden">
-          <button
-            onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
-            className="flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            <Languages className="h-4 w-4" />
-            {language === "pt" ? "English" : "Português"}
-          </button>
-        </div>
+        
       </header>
 
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="container relative mx-auto px-6 py-16 md:py-20">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+        <div className="container relative mx-auto px-6 md:py-20 py-5">
+          <div className="mx-auto grid max-w-6xl items-center md:grid-cols-2 gap-2">
             {/* Left: Text */}
             <div className="order-2 md:order-1">
               <h1 className="font-display mb-4 text-5xl font-bold tracking-tight text-foreground md:text-6xl text-center md:text-left">
