@@ -1,33 +1,37 @@
 "use client"
 
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
+import type React from "react"
+
+import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import {
   Mail,
   Linkedin,
   Instagram,
   Menu,
-  X,
-  TrendingUp,
-  Users,
-  Lightbulb,
-  BarChart3,
-  Database,
-  Target,
-  Briefcase,
   GraduationCap,
+  TrendingUp,
   Palette,
   Globe,
-  Search,
-  Megaphone,
-  Lock,
+  Lightbulb,
+  Users,
+  Target,
+  BarChart3,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
+  Lock,
   Languages,
+  Database,
+  Megaphone,
+  Search,
+  X,
+  Briefcase,
 } from "lucide-react"
-import Image from "next/image"
 
 type Language = "pt" | "en"
 
@@ -54,6 +58,117 @@ type ExpertiseArea = {
     en: { subtitle: string; items: string[] }
   }
 }
+
+const testimonials = [
+  {
+    id: 1,
+    quote: {
+      pt: "Domínio técnico e estratégico, especialmente na estruturação de jornadas de usuários e no alinhamento de stakeholders.",
+      en: "Technical and strategic mastery, especially in structuring user journeys and aligning stakeholders.",
+    },
+    author: "Lorenna Pizzo",
+    role: { pt: "Service Designer | UI/UX Designer", en: "Service Designer | UI/UX Designer" },
+  },
+  {
+    id: 2,
+    quote: {
+      pt: "Constatei a extrema qualidade do seu trabalho e o domínio dos fundamentos de design, prototipagem e design visual.",
+      en: "I witnessed the extreme quality of his work and mastery of design fundamentals, prototyping and visual design.",
+    },
+    author: "Elton Cardoso",
+    role: { pt: "Design Manager no iFood", en: "Design Manager at iFood" },
+  },
+  {
+    id: 3,
+    quote: {
+      pt: "Raciocínio abstrato e storytelling impecáveis, gerando entregas de altíssimo valor e ajudando a empresa em muitos desafios.",
+      en: "Impeccable abstract reasoning and storytelling, generating high-value deliveries and helping the company with many challenges.",
+    },
+    author: "Aldair Alvim",
+    role: { pt: "Design Manager na Blip", en: "Design Manager at Blip" },
+  },
+  {
+    id: 4,
+    quote: {
+      pt: "Olhar estratégico afiado, buscando equilibrar visão de produto e experiência do usuário de forma inteligente.",
+      en: "Sharp strategic vision, intelligently balancing product vision and user experience.",
+    },
+    author: "Fábio Gomide",
+    role: { pt: "Product Design Specialist", en: "Product Design Specialist" },
+  },
+  {
+    id: 5,
+    quote: {
+      pt: "Estruturou a área de Staff Product Designer de forma muito estratégica.",
+      en: "Structured the Staff Product Designer area very strategically.",
+    },
+    author: "Julio Cesar",
+    role: { pt: "Senior Product Designer @ Gupy", en: "Senior Product Designer @ Gupy" },
+  },
+  {
+    id: 6,
+    quote: {
+      pt: "Habilidade de conectar pontos, antecipar desafios e manter todos na mesma página.",
+      en: "Ability to connect dots, anticipate challenges and keep everyone on the same page.",
+    },
+    author: "Lorenna Pizzo",
+    role: { pt: "Service Designer | UI/UX Designer", en: "Service Designer | UI/UX Designer" },
+  },
+  {
+    id: 7,
+    quote: {
+      pt: "Reconhecido pelos conhecimentos avançados em service design, com envolvimento em diversas frentes estratégicas.",
+      en: "Recognized for advanced knowledge in service design, with involvement in various strategic fronts.",
+    },
+    author: "Elton Cardoso",
+    role: { pt: "Design Manager no iFood", en: "Design Manager at iFood" },
+  },
+  {
+    id: 8,
+    quote: {
+      pt: "Criou e conduziu o processo de critique, estabelecendo um novo padrão de qualidade e diminuindo os silos existentes.",
+      en: "Created and led the critique process, establishing a new quality standard and reducing existing silos.",
+    },
+    author: "Aldair Alvim",
+    role: { pt: "Design Manager na Blip", en: "Design Manager at Blip" },
+  },
+  {
+    id: 9,
+    quote: {
+      pt: "Habilidade de lidar com pessoas de diferentes trajetórias e engajá-las no mesmo projeto, com calma e profissionalismo.",
+      en: "Ability to deal with people from different backgrounds and engage them in the same project, with calm and professionalism.",
+    },
+    author: "Fábio Gomide",
+    role: { pt: "Product Design Specialist", en: "Product Design Specialist" },
+  },
+  {
+    id: 10,
+    quote: {
+      pt: "Conectou funcionalidades e jornadas completas, eliminando fricções na experiência e apontando caminhos para o time.",
+      en: "Connected functionalities and complete journeys, eliminating friction in the experience and pointing paths for the team.",
+    },
+    author: "Julio Cesar",
+    role: { pt: "Senior Product Designer @ Gupy", en: "Senior Product Designer @ Gupy" },
+  },
+  {
+    id: 11,
+    quote: {
+      pt: "Exerceu um importante papel de liderança técnica no capítulo de produto.",
+      en: "Played an important technical leadership role in the product chapter.",
+    },
+    author: "Aldair Alvim",
+    role: { pt: "Design Manager na Blip", en: "Design Manager at Blip" },
+  },
+  {
+    id: 12,
+    quote: {
+      pt: "Com um olhar sistêmico sobre o produto, foi responsável por liderar a conexão entre funcionalidades e jornadas completas.",
+      en: "With a systemic view of the product, he was responsible for leading the connection between functionalities and complete journeys.",
+    },
+    author: "Julio Cesar",
+    role: { pt: "Senior Product Designer @ Gupy", en: "Senior Product Designer @ Gupy" },
+  },
+]
 
 const projects: Project[] = [
   {
@@ -446,6 +561,64 @@ export default function PortfolioPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>("Todos")
   const [language, setLanguage] = useState<Language>("pt")
   const [trajectoryModalOpen, setTrajectoryModalOpen] = useState(false)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [fadeIn, setFadeIn] = useState(true)
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeIn(false)
+      setTimeout(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+        setFadeIn(true)
+      }, 300)
+    }, 6500)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const nextTestimonial = () => {
+    setFadeIn(false)
+    setTimeout(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+      setFadeIn(true)
+    }, 300)
+  }
+
+  const prevTestimonial = () => {
+    setFadeIn(false)
+    setTimeout(() => {
+      setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+      setFadeIn(true)
+    }, 300)
+  }
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      nextTestimonial()
+    } else if (isRightSwipe) {
+      prevTestimonial()
+    }
+  }
 
   const filters =
     language === "pt"
@@ -602,6 +775,10 @@ export default function PortfolioPage() {
         protectedProject: "Este projeto está protegido",
         contactInfo: "Entre em contato para mais informações.",
       },
+      // Added testimonials section to translations
+      testimonials: {
+        title: "O que dizem sobre mim",
+      },
       quote: {
         text: "Design is not just what it looks like and feels like. Design is how it works.",
         author: "Steve Jobs",
@@ -749,12 +926,16 @@ export default function PortfolioPage() {
         protectedProject: "This project is protected",
         contactInfo: "Contact me for more information.",
       },
+      // Added testimonials section to translations
+      testimonials: {
+        title: "What they say about me",
+      },
       quote: {
         text: "Design is not just what it looks like and feels like. Design is how it works.",
         author: "Steve Jobs",
       },
       footer: {
-        rights: "© 2025 Danilo Conti. All rights reserved.",
+        rights: "© 2026 Danilo Conti. All rights reserved.",
         contact: "Get in touch",
       },
     },
@@ -763,8 +944,8 @@ export default function PortfolioPage() {
   const trans = t[language]
 
   return (
-    <div className="min-h-screen bg-background dark">
-      {/* Navigation Menu */}
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Navigation Menu - Language toggle visible on mobile */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-2">
@@ -808,10 +989,23 @@ export default function PortfolioPage() {
             </button>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-            {mobileMenuOpen ? <X className="h-6 w-6 text-foreground" /> : <Menu className="h-6 w-6 text-foreground" />}
-          </button>
+          {/* Mobile: Show language toggle + menu button */}
+          <div className="flex items-center gap-3 md:hidden">
+            <button
+              onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
+              className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            >
+              <Languages className="h-4 w-4" />
+              {language === "pt" ? "EN" : "PT"}
+            </button>
+            <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6 text-foreground" />
+              ) : (
+                <Menu className="h-6 w-6 text-foreground" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -855,8 +1049,6 @@ export default function PortfolioPage() {
             </div>
           </nav>
         )}
-
-        
       </header>
 
       {/* Hero Section */}
@@ -1079,8 +1271,7 @@ export default function PortfolioPage() {
               {trans.projects.title}
             </h2>
 
-            {/* Filter Chips */}
-            <div className="mb-10 flex flex-wrap justify-center gap-3">
+            <div className="mb-10 flex flex-col md:flex-row md:flex-wrap justify-center gap-3">
               {filters.map((filter) => (
                 <Badge
                   key={filter}
@@ -1126,14 +1317,68 @@ export default function PortfolioPage() {
 
       <section className="border-b border-border py-14">
         <div className="container mx-auto px-6">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="relative rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-10">
-              <blockquote className="font-display text-2xl font-bold leading-relaxed text-foreground md:text-3xl">
-                {trans.quote.text}
-              </blockquote>
-              <footer className="mt-6">
-                <cite className="text-lg font-medium text-primary">— {trans.quote.author}</cite>
-              </footer>
+          <div className="mx-auto max-w-4xl">
+            <h2 className="font-display mb-8 text-center text-2xl font-bold text-foreground md:text-3xl">
+              {trans.testimonials.title}
+            </h2>
+            <div className="relative">
+              <div
+                className="relative rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-8 md:p-12"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+              >
+                <button
+                  onClick={prevTestimonial}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 hidden md:flex rounded-full border border-border bg-background/80 p-3 transition-colors hover:bg-accent backdrop-blur-sm"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="h-6 w-6 text-foreground" />
+                </button>
+
+                <button
+                  onClick={nextTestimonial}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex rounded-full border border-border bg-background/80 p-3 transition-colors hover:bg-accent backdrop-blur-sm"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="h-6 w-6 text-foreground" />
+                </button>
+
+                <div
+                  className={`mx-auto max-w-3xl text-center px-4 md:px-16 transition-opacity duration-300 ${
+                    fadeIn ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <blockquote className="font-display text-lg font-semibold leading-relaxed text-foreground md:text-xl min-h-[140px] md:min-h-[120px] flex items-center justify-center">
+                    "{testimonials[currentTestimonial].quote[language]}"
+                  </blockquote>
+                  <footer className="mt-6 flex flex-col items-center gap-1">
+                    <cite className="text-base font-semibold text-primary not-italic">
+                      {testimonials[currentTestimonial].author}
+                    </cite>
+                    <p className="text-sm text-muted-foreground">{testimonials[currentTestimonial].role[language]}</p>
+                  </footer>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-center gap-2">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setFadeIn(false)
+                      setTimeout(() => {
+                        setCurrentTestimonial(idx)
+                        setFadeIn(true)
+                      }, 300)
+                    }}
+                    className={`h-2 rounded-full transition-all ${
+                      idx === currentTestimonial ? "w-8 bg-primary" : "w-2 bg-primary/30"
+                    }`}
+                    aria-label={`Go to testimonial ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
