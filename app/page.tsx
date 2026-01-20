@@ -31,6 +31,8 @@ import {
   Search,
   X,
   Briefcase,
+  Download,
+  ChevronDown,
 } from "lucide-react"
 
 type Language = "pt" | "en"
@@ -949,6 +951,13 @@ export default function PortfolioPage() {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-2">
+            <Image
+              src="/images/logo-danilocnt.png"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="object-contain"
+            />
             <h1 className="font-display text-xl font-bold text-foreground">Danilo Conti</h1>
           </div>
 
@@ -1072,14 +1081,29 @@ export default function PortfolioPage() {
                   : "Scaling Products and Brands through Strategy and UX"}
               </p>
 
-              <div className="flex flex-col gap-3 md:flex-row md:gap-4">
-                <Button size="lg" className="w-full md:w-auto gap-2 bg-[#38bdf8] hover:bg-[#38bdf8]/90" asChild>
-                  <a href="mailto:danilocnt@gmail.com">
-                    <Mail className="h-5 w-5" />
-                    danilocnt@gmail.com
-                  </a>
-                </Button>
-                <div className="flex gap-3 md:gap-4 w-full md:w-auto">
+              <div className="flex flex-col gap-3 md:flex-row md:gap-4 items-center md:items-start">
+                <div className="relative w-full md:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full md:w-auto gap-2 bg-[#38bdf8] hover:bg-[#38bdf8]/90"
+                    onClick={() => {
+                      const cvLink = language === "pt"
+                        ? "https://docs.google.com/document/d/1Jj72fmZdpTahdAt9dURFLXpCV9I0AGA6_XPZN8M8jKI/edit?usp=sharing"
+                        : "https://docs.google.com/document/d/13-r9oSzFYfmxvGlMKNMKwVFsYzWinQ-TiqCiiZ222FU/edit?usp=sharing"
+                      window.open(cvLink, "_blank")
+                    }}
+                  >
+                    <Download className="h-5 w-5" />
+                    {language === "pt" ? "Baixar Currículo" : "Download Resume"}
+                  </Button>
+                </div>
+                <div className="flex gap-3 w-full md:w-auto">
+                  <Button size="lg" variant="outline" className="flex-1 md:flex-none gap-2 bg-transparent" asChild>
+                    <a href="mailto:danilocnt@gmail.com">
+                      <Mail className="h-5 w-5" />
+                      <span className="hidden sm:inline">Email</span>
+                    </a>
+                  </Button>
                   <Button size="lg" variant="outline" className="flex-1 md:flex-none gap-2 bg-transparent" asChild>
                     <a href="https://www.linkedin.com/in/danilocnt/" target="_blank" rel="noopener noreferrer">
                       <Linkedin className="h-5 w-5" />
@@ -1098,7 +1122,7 @@ export default function PortfolioPage() {
 
             {/* Right: Photo */}
             <div className="order-1 flex justify-center md:order-2 md:justify-end">
-              <div className="relative h-64 w-64 md:h-80 md:w-80">
+              <div className="relative h-80 w-80 md:h-[26rem] md:w-[26rem]">
                 <Image
                   src="/images/danilocnt.png"
                   alt="Danilo Conti"
@@ -1386,25 +1410,40 @@ export default function PortfolioPage() {
 
       <footer className="border-t border-border bg-background py-8">
         <div className="container mx-auto px-6">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row">
             <p className="text-sm text-muted-foreground text-center">{trans.footer.rights}</p>
-            <div className="flex gap-4">
-              <Button size="sm" variant="ghost" asChild>
-                <a href="mailto:danilocnt@gmail.com">
-                  <Mail className="mr-2 h-4 w-4" />
-                  {trans.footer.contact}
-                </a>
+            <div className="flex flex-col gap-3 items-center md:flex-row md:gap-4">
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-2 bg-transparent"
+                onClick={() => {
+                  const cvLink = language === "pt"
+                    ? "https://docs.google.com/document/d/1Jj72fmZdpTahdAt9dURFLXpCV9I0AGA6_XPZN8M8jKI/edit?usp=sharing"
+                    : "https://docs.google.com/document/d/13-r9oSzFYfmxvGlMKNMKwVFsYzWinQ-TiqCiiZ222FU/edit?usp=sharing"
+                  window.open(cvLink, "_blank")
+                }}
+              >
+                <Download className="h-4 w-4" />
+                {language === "pt" ? "Baixar Currículo" : "Download Resume"}
               </Button>
-              <Button size="sm" variant="ghost" asChild>
-                <a href="https://www.linkedin.com/in/danilocnt/" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-4 w-4" />
-                </a>
-              </Button>
-              <Button size="sm" variant="ghost" asChild>
-                <a href="https://www.instagram.com/danilocnt" target="_blank" rel="noopener noreferrer">
-                  <Instagram className="h-4 w-4" />
-                </a>
-              </Button>
+              <div className="flex gap-3">
+                <Button size="sm" variant="ghost" asChild>
+                  <a href="mailto:danilocnt@gmail.com">
+                    <Mail className="h-4 w-4" />
+                  </a>
+                </Button>
+                <Button size="sm" variant="ghost" asChild>
+                  <a href="https://www.linkedin.com/in/danilocnt/" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                </Button>
+                <Button size="sm" variant="ghost" asChild>
+                  <a href="https://www.instagram.com/danilocnt" target="_blank" rel="noopener noreferrer">
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
